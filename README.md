@@ -1,4 +1,4 @@
-# php-kata
+# PHP-Kata
 
 ## String Calculator Kata
 
