@@ -21,6 +21,7 @@ class StringCalculatorSpec extends ObjectBehavior
 
     function it_return_one_for_the_string_one(Tokenizer $tokenizer)
     {
+        $tokenizer->setSeparator('/\s+/')->willReturn($tokenizer);
         $tokenizer->tokenize('1')->willReturn(['1']);
 
         $this->sum('1')->shouldReturn(1);
@@ -28,7 +29,13 @@ class StringCalculatorSpec extends ObjectBehavior
 
     function it_return_sum_separated_numbers(Tokenizer $tokenizer)
     {
-        $tokenizer->tokenize('1 2')->willReturn(['1','2']);
+        $tokenizer->setSeparator('/\s+/')->willReturn($tokenizer);
+        $tokenizer->tokenize('1 2')->willReturn(['1', '2']);
         $this->sum('1 2')->shouldReturn(3);
+    }
+
+    function it_return_sum_of_number_separated_by_any_character(Tokenizer $tokenizer)
+    {
+        $this->extractSeparator('~1~2~3~4')->shouldReturn('/~/');
     }
 }

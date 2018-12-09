@@ -24,11 +24,13 @@ class StringCalculator
      */
     public function sum($string): int
     {
-        if(empty($string)) {
+        if (empty($string)) {
             return 0;
         }
 
-        return array_sum($this->tokenizer->tokenize($string));
+        $separator = $this->extractSeparator($string);
+
+        return array_sum($this->tokenizer->setSeparator($separator)->tokenize($string));
     }
 
     /**
@@ -39,8 +41,8 @@ class StringCalculator
     {
         $separator = "/\s+/";
 
-        if ($string[0] === '\\') {
-            $separator = '/' . $string[1] . '/';
+        if (is_numeric($string[0]) === false) {
+            $separator = '/' . $string[0] . '/';
         }
         return $separator;
     }
