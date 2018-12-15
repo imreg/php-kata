@@ -8,8 +8,9 @@ use Prophecy\Argument;
 
 class PlayerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_return_points()
     {
-        $this->shouldHaveType(Player::class);
+        $this->points();
+        $this->getPoints()->shouldBe(1);
     }
 }

@@ -2,19 +2,20 @@
 
 namespace Tennis;
 
-class Game
+
+class Game implements GameInterface
 {
     const PLAYER_1 = 'Player1';
 
     /**
-     * @var int
+     * @var Player
      */
-    private $player1Score = 0;
+    private $player1;
 
     /**
-     * @var int
+     * @var Player
      */
-    private $player2Score = 0;
+    private $player2;
 
     /**
      * @var array
@@ -23,27 +24,62 @@ class Game
         0 => 'Love',
         1 => 'Fifteen',
         2 => 'Thirty',
-        3 => 'Forthy',
+        3 => 'Forty',
     ];
+
+    /**
+     * Game constructor.
+     * @param Player $player1
+     * @param Player $player2
+     */
+    public function __construct(Player $player1, Player $player2)
+    {
+        $this->player1 = $player1;
+        $this->player2 = $player2;
+    }
 
     /**
      * @return string
      */
     public function getScore(): string
     {
-        if ($this->player1Score !== $this->player2Score) {
-            return $this->scores[$this->player1Score] . ' - ' . $this->scores[$this->player2Score];
+        if ($this->player1->getPoints() !== $this->player2->getPoints()) {
+            return $this->scores[$this->player1->getPoints()] . ' - ' . $this->scores[$this->player2->getPoints()];
         }
 
-        return $this->scores[$this->player1Score] . ' - all';
+        if ($this->isDuce() === true) {
+            return 'Duece';
+        }
+
+        if ($this->isAll() === true) {
+            return $this->scores[$this->player1->getPoints()] . ' - all';
+        }
     }
 
-    public function score($player)
+    public function score(string $player)
     {
         if ($player === self::PLAYER_1) {
-            $this->player1Score += 1;
+            $this->player1->points();
         } else {
-            $this->player2Score += 1;
+            $this->player2->points();
         }
+    }
+
+    private function isDuce(): bool
+    {
+        if ($this->player1->getPoints() === $this->player2->getPoints()
+            && $this->player1->getPoints() >= 3) {
+            return true;
+        }
+        return false;
+    }
+
+    private function isAll(): bool
+    {
+        if ($this->player1->getPoints() === $this->player2->getPoints()
+            && $this->player1->getPoints() <= 3) {
+            return true;
+        }
+        return false;
     }
 }
