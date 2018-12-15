@@ -19,7 +19,7 @@ class Tokenizer
      * @param $separator
      * @return $this
      */
-    public function setSeparator($separator): self 
+    public function setSeparator($separator): self
     {
         $this->separator = $separator;
         return $this;
