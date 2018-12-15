@@ -3,11 +3,8 @@
 namespace Tennis;
 
 
-class Game implements GameInterface
+class Game
 {
-    const PLAYER_1 = 'Player1';
-    const PLAYER_2 = 'Player2';
-
     /**
      * @var Player
      */
@@ -44,36 +41,36 @@ class Game implements GameInterface
      */
     public function getScore(): string
     {
-        if ($this->hasAdvantage() == true) {
-            return 'Advantage - ' . self::PLAYER_1;
+        if( $this->isWinner()) {
+            return 'Winner - '.$this->leaderPlayer();
         }
 
-        if ($this->player1->getPoints() !== $this->player2->getPoints()) {
-            return $this->scores[$this->player1->getPoints()] . ' - ' . $this->scores[$this->player2->getPoints()];
+        if ($this->isAdvantage()) {
+            return 'Advantage - '.$this->leaderPlayer();
         }
 
-        if ($this->isDuce() === true) {
+        if ($this->isDuce()) {
             return 'Duece';
         }
 
-        if ($this->isAll() === true) {
+        if ($this->isAll()) {
             return $this->scores[$this->player1->getPoints()] . ' - all';
         }
-    }
 
-    public function score(string $player)
-    {
-        if ($player === self::PLAYER_1) {
-            $this->player1->points();
-        } else {
-            $this->player2->points();
+        if ($this->player1->getPoints() !== $this->player2->getPoints()
+            && $this->player1->getPoints() < 3
+            && $this->player2->getPoints() < 3
+        ) {
+            return $this->scores[$this->player1->getPoints()] . ' - ' . $this->scores[$this->player2->getPoints()];
         }
     }
 
     private function isAll(): bool
     {
-        if ($this->player1->getPoints() === $this->player2->getPoints()
-            && $this->player1->getPoints() <= 3) {
+        if (($this->player1->getPoints() === $this->player2->getPoints())
+            && $this->player1->getPoints() < 3
+            && $this->player2->getPoints() < 3
+        ) {
             return true;
         }
         return false;
@@ -81,16 +78,38 @@ class Game implements GameInterface
 
     private function isDuce(): bool
     {
-        if ($this->player1->getPoints() === $this->player2->getPoints()
-            && $this->player1->getPoints() >= 3) {
+        if (($this->player1->getPoints() === $this->player2->getPoints())
+            && $this->player1->getPoints() === 3
+            && $this->player2->getPoints() === 3
+        ) {
             return true;
         }
         return false;
     }
 
-    private function hasAdvantage(): bool
+    private function isAdvantage(): bool
     {
-        if (($this->player1->getPoints()) > 4 || ($this->player2->getPoints()) > 4) {
+        if (($this->player1->getPoints() > 3)
+            || ($this->player2->getPoints() > 3 )
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private function leaderPlayer(): string
+    {
+        if ($this->player1->getPoints() > $this->player2->getPoints()) {
+            return $this->player1->getName();
+        }
+        return $this->player2->getName();
+    }
+
+    private function isWinner(): bool
+    {
+        if(abs($this->player1->getPoints() - $this->player2->getPoints()) >= 2
+            && ($this->player1->getPoints() >= 3 || $this->player2->getPoints() >= 3)
+        ) {
             return true;
         }
         return false;

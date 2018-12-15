@@ -2,20 +2,39 @@
 
 namespace Tennis;
 
-class Player implements PlayerInterface
+class Player
 {
     /**
      * @var int
      */
     private $point = 0;
 
-    public function points(int $point = 1)
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * Player constructor.
+     * @param $name
+     */
+    public function __construct(string $name)
     {
-        $this->point += $point;
+        $this->name = $name;
+    }
+
+    public function points()
+    {
+        $this->point += 1;
     }
 
     public function getPoints(): int
     {
         return $this->point;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

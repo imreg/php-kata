@@ -2,15 +2,23 @@
 
 namespace spec\Tennis;
 
-use Tennis\Player;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class PlayerSpec extends ObjectBehavior
 {
+    function let()
+    {
+        $this->beConstructedWith('player');
+    }
+
     function it_return_points()
     {
         $this->points();
         $this->getPoints()->shouldBe(1);
+    }
+
+    function it_return_name()
+    {
+        $this->getName()->shouldBe('player');
     }
 }
