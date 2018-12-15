@@ -6,6 +6,7 @@ namespace Tennis;
 class Game implements GameInterface
 {
     const PLAYER_1 = 'Player1';
+    const PLAYER_2 = 'Player2';
 
     /**
      * @var Player
@@ -43,6 +44,10 @@ class Game implements GameInterface
      */
     public function getScore(): string
     {
+        if ($this->hasAdvantage() == true) {
+            return 'Advantage - ' . self::PLAYER_1;
+        }
+
         if ($this->player1->getPoints() !== $this->player2->getPoints()) {
             return $this->scores[$this->player1->getPoints()] . ' - ' . $this->scores[$this->player2->getPoints()];
         }
@@ -65,6 +70,15 @@ class Game implements GameInterface
         }
     }
 
+    private function isAll(): bool
+    {
+        if ($this->player1->getPoints() === $this->player2->getPoints()
+            && $this->player1->getPoints() <= 3) {
+            return true;
+        }
+        return false;
+    }
+
     private function isDuce(): bool
     {
         if ($this->player1->getPoints() === $this->player2->getPoints()
@@ -74,10 +88,9 @@ class Game implements GameInterface
         return false;
     }
 
-    private function isAll(): bool
+    private function hasAdvantage(): bool
     {
-        if ($this->player1->getPoints() === $this->player2->getPoints()
-            && $this->player1->getPoints() <= 3) {
+        if (($this->player1->getPoints()) > 4 || ($this->player2->getPoints()) > 4) {
             return true;
         }
         return false;

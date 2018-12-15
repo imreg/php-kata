@@ -67,10 +67,21 @@ class GameSpec extends ObjectBehavior
         Player $playerOne,Player $playerTwo
     )
     {
-        $playerTwo->getPoints()->willReturn(4);
         $playerOne->getPoints()->willReturn(4);
+        $playerTwo->getPoints()->willReturn(4);
         $this->beConstructedWith($playerOne, $playerTwo);
 
         $this->getScore()->shouldReturn('Duece');
+    }
+
+    function it_displays_advantage_when_first_player_has_one_more_and_second_has_at_least_forty_scored(
+        Player $playerOne,Player $playerTwo
+    )
+    {
+        $playerOne->getPoints()->willReturn(5);
+        $playerTwo->getPoints()->willReturn(4);
+        $this->beConstructedWith($playerOne, $playerTwo);
+
+        $this->getScore()->shouldReturn('Advantage - Player1');
     }
 }
