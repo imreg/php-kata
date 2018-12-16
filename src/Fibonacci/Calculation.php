@@ -5,7 +5,7 @@ namespace Fibonacci;
 class Calculation
 {
     /**
-     * @param int $level
+     * @param int $iteration
      * @return array
      */
     public function sequence(int $iteration): array
