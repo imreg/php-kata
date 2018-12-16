@@ -2,7 +2,7 @@
 
 namespace Fibonacci;
 
-class Calculation
+class Series
 {
     /**
      * @param int $iteration

@@ -2,11 +2,11 @@
 
 namespace spec\Fibonacci;
 
-use Fibonacci\Calculation;
+use Fibonacci\Series;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class CalculationSpec extends ObjectBehavior
+class SeriesSpec extends ObjectBehavior
 {
     function it_returns_zero_in_array_when_is_on_level_zero()
     {
