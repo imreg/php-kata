@@ -22,6 +22,7 @@ class Game
      * Game constructor.
      * @param Player $player1
      * @param Player $player2
+     * @param Formatter $formatter
      */
     public function __construct(Player $player1, Player $player2, Formatter $formatter)
     {
