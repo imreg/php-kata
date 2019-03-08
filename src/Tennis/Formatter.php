@@ -4,18 +4,8 @@ namespace Tennis;
 
 class Formatter
 {
-    /**
-     * @var array
-     */
-    private $scores = [
-        0 => 'Love',
-        1 => 'Fifteen',
-        2 => 'Thirty',
-        3 => 'Forty',
-    ];
-
-    public function formatScore(Player $player)
+    public function formatScore(Player $player, Scores $scores)
     {
-        return $player->format($this->scores, ' - all');
+        return $player->format($scores, ' - all');
     }
 }

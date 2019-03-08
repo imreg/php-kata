@@ -15,16 +15,6 @@ class Player
     private $name;
 
     /**
-     * @var array
-     */
-    private $scores = [
-        0 => 'Love',
-        1 => 'Fifteen',
-        2 => 'Thirty',
-        3 => 'Forty',
-    ];
-
-    /**
      * Player constructor.
      * @param $name
      */
@@ -38,44 +28,75 @@ class Player
         $this->point += 1;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @param Player $player
+     * @return bool
+     */
     public function hasDifferentScoreTo(Player $player): bool
     {
         return $this->point !== $player->point;
     }
 
+    /**
+     * @return bool
+     */
     public function hasLessThanThree(): bool
     {
         return $this->point < 3;
     }
 
+    /**
+     * @return bool
+     */
     public function hasThree(): bool
     {
         return $this->point === 3;
     }
 
-    public function formatScoreWith(Player $player)
+    /**
+     * @param Player $player
+     * @param Scores $scores
+     * @return string
+     */
+    public function formatScoreWith(Player $player, Scores $scores)
     {
-        return $this->scores[$this->point] . ' - ' . $this->scores[$player->point];
+        return $scores->scores($this->point) . ' - ' . $scores->scores($player->point);
     }
 
+    /**
+     * @param Player $player
+     * @return bool
+     */
     public function hasAdvantageOver(Player $player): bool
     {
         return $this->point > 3 && $player->point > 3 && $this->point > $player->point;
     }
 
+    /**
+     * @param Player $player
+     * @return bool
+     */
     public function hasWonAgainst(Player $player)
     {
         return abs($this->point - $player->point) >= 2
             && ($this->point >= 3 || $player->point >= 3);
     }
 
-    public function format(array $scores, $string)
+    /**
+     * @param Scores $scores
+     * @param $string
+     * @return string
+     */
+    public function format(Scores $scores, $string)
     {
-        return $scores[$this->point] . $string;
+        return $scores->scores($this->point) . $string;
     }
 }
