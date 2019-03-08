@@ -16,6 +16,6 @@ class Formatter
 
     public function formatScore(Player $player)
     {
-        return $player->format($this->scores,' - all');
+        return $player->format($this->scores, ' - all');
     }
 }

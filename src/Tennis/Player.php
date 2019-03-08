@@ -48,7 +48,7 @@ class Player
         return $this->point !== $player->point;
     }
 
-    public function hasLessThanThree() : bool
+    public function hasLessThanThree(): bool
     {
         return $this->point < 3;
     }
@@ -58,12 +58,12 @@ class Player
         return $this->point === 3;
     }
 
-    public function formatScoreWith( Player $player)
+    public function formatScoreWith(Player $player)
     {
         return $this->scores[$this->point] . ' - ' . $this->scores[$player->point];
     }
 
-    public function hasAdvantageOver(Player $player) :bool
+    public function hasAdvantageOver(Player $player): bool
     {
         return $this->point > 3 && $player->point > 3 && $this->point > $player->point;
     }

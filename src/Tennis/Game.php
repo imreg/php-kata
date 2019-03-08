@@ -36,12 +36,12 @@ class Game
      */
     public function getScore(): string
     {
-        if( $this->player1->hasWonAgainst($this->player2)) {
-            return 'Winner - '.$this->player1->getName();
+        if ($this->player1->hasWonAgainst($this->player2)) {
+            return 'Winner - ' . $this->player1->getName();
         }
 
-        if( $this->player2->hasWonAgainst($this->player1)) {
-            return 'Winner - '.$this->player2->getName();
+        if ($this->player2->hasWonAgainst($this->player1)) {
+            return 'Winner - ' . $this->player2->getName();
         }
 
         if ($this->player1->hasAdvantageOver($this->player2)) {
@@ -80,5 +80,4 @@ class Game
             && $this->player1->hasThree()
             && $this->player1->hasThree();
     }
-
 }
