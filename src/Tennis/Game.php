@@ -2,7 +2,6 @@
 
 namespace Tennis;
 
-
 class Game
 {
     /**
@@ -14,26 +13,21 @@ class Game
      * @var Player
      */
     private $player2;
-
     /**
-     * @var array
+     * @var Formatter
      */
-    private $scores = [
-        0 => 'Love',
-        1 => 'Fifteen',
-        2 => 'Thirty',
-        3 => 'Forty',
-    ];
+    private $formatter;
 
     /**
      * Game constructor.
      * @param Player $player1
      * @param Player $player2
      */
-    public function __construct(Player $player1, Player $player2)
+    public function __construct(Player $player1, Player $player2, Formatter $formatter)
     {
         $this->player1 = $player1;
         $this->player2 = $player2;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -41,12 +35,20 @@ class Game
      */
     public function getScore(): string
     {
-        if( $this->isWinner()) {
-            return 'Winner - '.$this->leaderPlayer();
+        if( $this->player1->hasWonAgainst($this->player2)) {
+            return 'Winner - '.$this->player1->getName();
         }
 
-        if ($this->isAdvantage()) {
-            return 'Advantage - '.$this->leaderPlayer();
+        if( $this->player2->hasWonAgainst($this->player1)) {
+            return 'Winner - '.$this->player2->getName();
+        }
+
+        if ($this->player1->hasAdvantageOver($this->player2)) {
+            return 'Advantage - ' . $this->player1->getName();
+        }
+
+        if ($this->player2->hasAdvantageOver($this->player1)) {
+            return 'Advantage - ' . $this->player2->getName();
         }
 
         if ($this->isDuce()) {
@@ -54,64 +56,28 @@ class Game
         }
 
         if ($this->isAll()) {
-            return $this->scores[$this->player1->getPoints()] . ' - all';
+            return $this->formatter->formatScore($this->player1);
         }
 
-        if ($this->player1->getPoints() !== $this->player2->getPoints()
-            && $this->player1->getPoints() < 3
-            && $this->player2->getPoints() < 3
+        if ($this->player1->hasDifferentScoreTo($this->player2)
+            && $this->player1->hasLessThanThree()
+            && $this->player2->hasLessThanThree()
         ) {
-            return $this->scores[$this->player1->getPoints()] . ' - ' . $this->scores[$this->player2->getPoints()];
+            return $this->player1->formatScoreWith($this->player2);
         }
     }
 
     private function isAll(): bool
     {
-        if (($this->player1->getPoints() === $this->player2->getPoints())
-            && $this->player1->getPoints() < 3
-            && $this->player2->getPoints() < 3
-        ) {
-            return true;
-        }
-        return false;
+        return !$this->player1->hasDifferentScoreTo($this->player2) && $this->player1->hasLessThanThree()
+            && $this->player2->hasLessThanThree();
     }
 
     private function isDuce(): bool
     {
-        if (($this->player1->getPoints() === $this->player2->getPoints())
-            && $this->player1->getPoints() === 3
-            && $this->player2->getPoints() === 3
-        ) {
-            return true;
-        }
-        return false;
+        return !$this->player1->hasDifferentScoreTo($this->player2)
+            && $this->player1->hasThree()
+            && $this->player1->hasThree();
     }
 
-    private function isAdvantage(): bool
-    {
-        if (($this->player1->getPoints() > 3)
-            || ($this->player2->getPoints() > 3 )
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    private function leaderPlayer(): string
-    {
-        if ($this->player1->getPoints() > $this->player2->getPoints()) {
-            return $this->player1->getName();
-        }
-        return $this->player2->getName();
-    }
-
-    private function isWinner(): bool
-    {
-        if(abs($this->player1->getPoints() - $this->player2->getPoints()) >= 2
-            && ($this->player1->getPoints() >= 3 || $this->player2->getPoints() >= 3)
-        ) {
-            return true;
-        }
-        return false;
-    }
 }
