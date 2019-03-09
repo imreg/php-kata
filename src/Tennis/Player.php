@@ -36,13 +36,18 @@ class Player
         return $this->name;
     }
 
+    public function getPoint(): int
+    {
+        return $this->point;
+    }
+
     /**
      * @param Player $player
      * @return bool
      */
     public function hasDifferentScoreTo(Player $player): bool
     {
-        return $this->point !== $player->point;
+        return $this->getPoint() !== $player->getPoint();
     }
 
     /**
@@ -50,7 +55,7 @@ class Player
      */
     public function hasLessThanThree(): bool
     {
-        return $this->point < 3;
+        return $this->getPoint() < 3;
     }
 
     /**
@@ -58,7 +63,26 @@ class Player
      */
     public function hasThree(): bool
     {
-        return $this->point === 3;
+        return $this->getPoint() === 3;
+    }
+
+    /**
+     * @param Player $player
+     * @return bool
+     */
+    public function hasAdvantageOver(Player $player): bool
+    {
+        return $this->getPoint() > 3 && $player->getPoint() > 3 && $this->getPoint() > $player->getPoint();
+    }
+
+    /**
+     * @param Player $player
+     * @return bool
+     */
+    public function hasWonAgainst(Player $player)
+    {
+        return abs($this->getPoint() - $player->getPoint()) >= 2
+            && ($this->getPoint() >= 3 || $player->getPoint() >= 3);
     }
 
     /**
@@ -68,26 +92,7 @@ class Player
      */
     public function formatScoreWith(Player $player, Scores $scores)
     {
-        return $scores->scores($this->point) . ' - ' . $scores->scores($player->point);
-    }
-
-    /**
-     * @param Player $player
-     * @return bool
-     */
-    public function hasAdvantageOver(Player $player): bool
-    {
-        return $this->point > 3 && $player->point > 3 && $this->point > $player->point;
-    }
-
-    /**
-     * @param Player $player
-     * @return bool
-     */
-    public function hasWonAgainst(Player $player)
-    {
-        return abs($this->point - $player->point) >= 2
-            && ($this->point >= 3 || $player->point >= 3);
+        return $scores->scores($this->getPoint()) . ' - ' . $scores->scores($player->getPoint());
     }
 
     /**
@@ -97,6 +102,6 @@ class Player
      */
     public function format(Scores $scores, $string)
     {
-        return $scores->scores($this->point) . $string;
+        return $scores->scores($this->getPoint()) . $string;
     }
 }
