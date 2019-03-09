@@ -10,7 +10,7 @@ class Tokenizer
      * @param string $string
      * @return array
      */
-    function tokenize(string $string): array
+    public function tokenize(string $string): array
     {
         return preg_split($this->separator, $string);
     }

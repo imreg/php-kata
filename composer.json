@@ -9,12 +9,19 @@
     },
     "autoload": {
         "psr-4": {
-            "Src\\": "src/"
+            "": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
+            "Tests\\": "tests/"
         }
+    },
+    "require": {
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "scripts": {
+        "phpcs": "bin/phpcs -p --standard=PSR2 --ignore=vendor ./src",
+        "phpcbf": "phpcbf -p --standard=PSR2 --ignore=vendor ./src"
     }
 }
