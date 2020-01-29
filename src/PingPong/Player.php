@@ -23,7 +23,8 @@ class Player
         $this->name = $name;
     }
 
-    public function scorePoint()
+    public function scorePoint
+		()
     {
         $this->point += 1;
     }
